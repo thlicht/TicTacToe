@@ -1,0 +1,26 @@
+table, th, td{
+    border: 3px solid black;
+}
+
+th, tr{
+    height: 100px;
+}
+
+td{
+    text-align:center;
+    
+}
+
+.applyX{
+    background-image: url("../pics/X-mark.png");
+    background-position: center;
+    background-size: 75px 75px;
+    background-repeat: no-repeat;
+}
+
+.applyO{
+    background-image: url("../pics/O.png");
+    background-position: center;
+    background-size: 75px 75px;
+    background-repeat: no-repeat;
+}

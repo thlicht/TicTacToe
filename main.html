@@ -1,0 +1,65 @@
+<!<!DOCTYPE HTML>
+<meta charset = UTF-8>
+<html lang = "en">
+    <header>
+        <h1>
+            My Tic-Tac-Toe game
+        </h1>
+        <link rel = "stylesheet" href = "CSS\styling.css">
+        <script src ="JS/modifyJS.js"></script>
+    </header>
+    
+    <main>
+    
+        <table id = "board" style = "width:50%">
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+        </table>
+
+        <input type = "button" id = "Clear" value ="Clear Board">
+        <input type = "button" id = "Switch" value = "Switch Piece">
+        <form id = "Piece_Selectors">
+            <input type = "radio" id = "Select_X" onclick = "setupforX()"> Select X <br>
+            <input type = "radio" id = "Select_O" onclick = "setO()"> Select O
+        </form>
+
+        <form id = "Versus_Selector">
+            <input type = "radio" id = "Computer" onclick = "setupComputer()"> Play vs Computer <br>
+            <input type = "radio" id = "Human"> Player vs Player
+        </form>
+        
+    </main>
+
+</html>
+
