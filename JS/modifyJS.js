@@ -116,8 +116,6 @@ function setO ()
         {
             b.rows[r].cells[c].onclick = function () 
             {
-                var ro = c;
-                var co = c;
                 change(this);
                 checkForWin(this);
             }
@@ -147,42 +145,14 @@ function startGame()
     }
     else if ($("Computer").checked)
     {
+        currentPiece = "X";
         setupforX();
         setupComputer();
-        alert(turn);
         if(turn)
         {
-            var b = $("board");
-            var num = getRandomInt(1,9);
-            var count=0;
-            for (var r=0; r < b.rows.length ;r++)
-            {
-                for(var c=0; c < b.rows[r].cells.length; c++)
-                {
-                    if(!b.rows[r].cells[c].hasAttribute("class"))
-                    {
-                        if(num >count)
-                        {
-                            count++;
-                        }
-                        else
-                        {
-                            b.rows[r].cells[c].setAttribute("class", "applyO");
-                            currentPiece = "X";
-                            checkForWin(b.rows[r].cells[c]);
-                            $("Turn").innerHTML = "Current Player Piece: X";
-                            return;
-                        }
-                        
-                    }
-                    else
-                    {
-                        count++;
-                    }    
-                }
-            }
-        
+            playComputer();
         }
+        
     }
 
     $("Turn").innerHTML = "Current Player Piece: " + currentPiece;
@@ -252,41 +222,26 @@ function clock()
 function playComputer()
 {
     var b = $("board");
-    var num = getRandomInt(1,9);
-    var count=0;
-    for (var r=0; r < b.rows.length ;r++)
+    var rRow = getRandomInt(0,2);
+    var rCol = getRandomInt(0,2);
+
+    while(true)
     {
-        for(var c=0; c < b.rows[r].cells.length; c++)
+        if(!b.rows[rRow].cells[rCol].hasAttribute("class"))
         {
-            if(!b.rows[r].cells[c].hasAttribute("class"))
-            {
-                if(num >count)
-                {
-                    count++;
-                }
-                else
-                {
-                    if(winner)
-                    {
-                        b.rows[r].cells[c].removeEventListener("click",playComputer);
-                        return;
-                    }
-                    else{
-                        b.rows[r].cells[c].setAttribute("class", "applyO");
-                        currentPiece = "X";
-                        checkForWin(b.rows[r].cells[c]);
-                        $("Turn").innerHTML = "Current Player Piece: X";
-                        return;
-                    }
-                }
-                
-            }
-            else
-            {
-                count++;
-            }    
+            b.rows[rRow].cells[rCol].setAttribute("class", "applyO");
+            b.rows[rRow].cells[rCol].removeEventListener("click", playComputer);
+            $("Turn").innerHTML = "Current Player Piece: X";
+            currentPiece = "X";
+            return;
+        }
+        else
+        {
+            rRow = getRandomInt(0,2);
+            rCol = getRandomInt(0,2);
         }
     }
+    
 }
 
 function setupTwoPlayer()
