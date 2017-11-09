@@ -24,3 +24,11 @@ td{
     background-size: 75px 75px;
     background-repeat: no-repeat;
 }
+
+#board{
+    float:left;
+}
+
+#clock {
+    font-size: 200%
+}
