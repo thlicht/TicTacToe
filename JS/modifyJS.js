@@ -24,7 +24,8 @@ function checkColumns(column)
     {
         return true;
     }
-    else{
+    else
+    {
         return false;
     }
 }
@@ -77,11 +78,20 @@ function checkDiagonal()
 var turnNums;
 function checkForWin(square)
 {
+    turnNums;
     if(checkColumns(square.cellIndex)||checkRows(square.parentNode.rowIndex) || checkDiagonal())
     {
         alert("Win");
         winner = true;
-        turnNums;
+        clearInterval(interval);
+        var b = $("board");
+        for(var i = 0; i < b.rows.length; i++)
+        {
+            for (var k = 0; k < b.rows[i].cells.length; k++)
+            {
+                b.rows[i].cells[k].removeEventListener("click", playComputer);
+            }
+        }
     }
 
     if(turnNums == 9)
@@ -90,24 +100,8 @@ function checkForWin(square)
     }
 }
 
-//setup the board for the first click to place an X
-function setupforX()
-{
-    var b = $("board");
-    for (var r=0; r < b.rows.length ;r++)
-    {
-        for(var c=0; c < b.rows[r].cells.length; c++)
-        {
-            b.rows[r].cells[c].onclick = function () 
-            {
-                change(this);
-                checkForWin(this);
-            }
-        }
-    }
-}
-//setup the board for the first click to place an O
-function setO ()
+//setup the board for clicks to place the to-be-played piece
+function setupforPlayer()
 {
     var b = $("board");
     for (var r=0; r < b.rows.length ;r++)
@@ -134,28 +128,28 @@ window.onload = function()
     
 }
 var currentPiece = "-";
+var interval;
 function startGame()
 {
     clock();
-    setInterval(clock, 1000);
+    interval = setInterval(clock, 1000);
     var turn = getRandomInt(0,1);
     if($("Human").checked)
     {
         setupTwoPlayer();
+        $("Turn").innerHTML = "Current Player Piece: " + currentPiece;
     }
     else if ($("Computer").checked)
     {
         currentPiece = "X";
-        setupforX();
+        setupforPlayer();
         setupComputer();
         if(turn)
         {
             playComputer();
         }
-        
+        $("Turn").innerHTML = "Player Piece: X";
     }
-
-    $("Turn").innerHTML = "Current Player Piece: " + currentPiece;
 
 }
 
@@ -231,7 +225,8 @@ function playComputer()
         {
             b.rows[rRow].cells[rCol].setAttribute("class", "applyO");
             b.rows[rRow].cells[rCol].removeEventListener("click", playComputer);
-            $("Turn").innerHTML = "Current Player Piece: X";
+            checkForWin(b.rows[rRow].cells[rCol]);
+            $("Turn").innerHTML = "Player Piece: X";
             currentPiece = "X";
             return;
         }
@@ -251,12 +246,12 @@ function setupTwoPlayer()
     if(selector)
     {
         currentPiece = "X";
-        setupforX();
+        setupforPlayer();
     }
     else
     {
         currentPiece = "O";
-        setO();
+        setupforPlayer();
     }
 }
 //setup the game to play against the computer
@@ -289,6 +284,7 @@ function clearGame()
             b.rows[r].cells[c].removeAttribute("class")
         }
     }
+    clearInterval(interval);
 }
 
 //check which radio buttons are currently selected, and swap if needed
