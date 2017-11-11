@@ -48,8 +48,8 @@
             </tr>
         </table>
 
-        <input type = "button" id = "Clear" value ="Clear Board" onclick = "clearGame()">
-        <input type = "button" id = "Startstop" value = "Start/Stop" onclick = "startGame()">
+        <input type = "button" id = "Startstop" value = "Start/Restart" onclick = "startGame()">
+        <input type = "button" id = "StartOver" value = "Play Again?" onclick = "clearGame()">
 
         <form id = "Versus_Selector">
             <h2>Select Game Type</h2>
@@ -57,7 +57,8 @@
             <input type = "radio" id = "Human"> Player vs Player
         </form>
         
-        <div id = "clock"></div>
+        <div id = "clock">
+        </div>
         
     </section>
     <section id = "Turn_section">

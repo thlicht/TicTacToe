@@ -81,7 +81,8 @@ function checkForWin(square)
     turnNums++;
     if(checkColumns(square.cellIndex)||checkRows(square.parentNode.rowIndex) || checkDiagonal())
     {
-        alert("Win");
+        alert("Winner! If you want to play another against the same opponent, click the Play Again? button.  Otherwise select a different opponent type and click Start Game.");
+        $("StartOver").disabled = false;
         winner = true;
         clearInterval(interval);
         var b = $("board");
@@ -96,7 +97,7 @@ function checkForWin(square)
 
     if(turnNums == 9)
     {
-        alert("Cats Game");
+        alert("No Winner, click Play Again to play against same opponent, otherwise select new opponent type and hit Start Game");
     }
 }
 
@@ -124,7 +125,7 @@ window.onload = function()
     turnCount = 0;
     $("Computer").checked = false;
     $("Human").checked = false;
-    var b = $("board");
+    $("StartOver").disabled = true;
     
 }
 var currentPiece = "-";
@@ -132,8 +133,19 @@ var interval;
 //setup the clock to start working and setup the board for the correct opponent
 function startGame()
 {
-    clock();
-    interval = setInterval(clock, 1000);
+    if(seconds > 0)
+    {
+        restart();
+        clearInterval(interval);
+        minutes = 0;
+        seconds = 0;
+        hours = 0;
+        $("clock").innerHTML = "Game Length: 00:00:00";
+        currentPiece = "-";
+        winner = false;
+        turnNums = 0;
+    }
+    
     var turn = getRandomInt(0,1);
     if($("Human").checked)
     {
@@ -151,7 +163,8 @@ function startGame()
         }
         $("Turn").innerHTML = "Player Piece: X";
     }
-
+    clock();
+    interval = setInterval(clock, 1000);
 }
 
 var minutes = 0;
@@ -179,16 +192,16 @@ function clock() //simple clock function
         {
             if(hours <= 9)
             {
-                clock.innerHTML = "0" + hours + ":0" + minutes + ":0"  + seconds++;
+                clock.innerHTML = "Game Length: " +"0" + hours + ":0" + minutes + ":0"  + seconds++;
             }
             else
             {
-                clock.innerHTML = hours + ":0" + minutes + ":0"  + seconds++;
+                clock.innerHTML = "Game Length: " +hours + ":0" + minutes + ":0"  + seconds++;
             }
         }
         else
         {
-            clock.innerHTML = hours + ":" + minutes + ":0"  + seconds++;
+            clock.innerHTML = "Game Length: " +hours + ":" + minutes + ":0"  + seconds++;
         }
 
     }
@@ -198,16 +211,16 @@ function clock() //simple clock function
         {
             if(hours <= 9)
             {
-                clock.innerHTML = "0" + hours + ":0" + minutes + ":"  + seconds++;
+                clock.innerHTML = "Game Length: " +"0" + hours + ":0" + minutes + ":"  + seconds++;
             }
             else
             {
-                clock.innerHTML = hours + ":0" + minutes + ":"  + seconds++;
+                clock.innerHTML = "Game Length: " +hours + ":0" + minutes + ":"  + seconds++;
             }
         }
         else
         {
-            clock.innerHTML = hours + ":" + minutes + ":"  + seconds++;
+            clock.innerHTML = "Game Length: " +hours + ":" + minutes + ":"  + seconds++;
         }
     }
     
@@ -272,11 +285,9 @@ function setupComputer()
     }
 }
 //clear the gameboard and set all global variables back to their original state
-function clearGame() 
+function clearGame()
 {
     var b = $("board");
-    $("Computer").checked = false;
-    $("Human").checked = false;
 
     for (var r=0; r < b.rows.length ;r++)
     {
@@ -289,10 +300,21 @@ function clearGame()
     minutes = 0;
     seconds = 0;
     hours = 0;
-    $("clock").innerHTML = "00:00:00";
+    $("clock").innerHTML = "Game Length: 00:00:00";
     currentPiece = "-";
     winner = false;
     turnNums = 0;
+
+    if( $("Computer").checked )
+    {
+        startGame();
+    }
+    else if ( $("Human").checked )
+    {
+        startGame();
+    }
+
+    
 }
 
 //check what the current piece is, trying to prevent uneeded changes to the global variable
@@ -350,4 +372,27 @@ function change(tableCell)
     
     
 }
+
+function restart()
+{
+    var b = $("board");
+    
+        for (var r=0; r < b.rows.length ;r++)
+        {
+            for(var c=0; c < b.rows[r].cells.length; c++)
+            {
+                b.rows[r].cells[c].removeAttribute("class")
+            }
+        }
+        
+        clearInterval(interval);
+        minutes = 0;
+        seconds = 0;
+        hours = 0;
+        $("clock").innerHTML = "Game Length: 00:00:00";
+        winner = false;
+        turnNums = 0;
+}
+
+
 
