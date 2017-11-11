@@ -30,5 +30,10 @@ td{
 }
 
 #clock {
-    font-size: 200%
+    font-size: 200%;
+}
+
+#Turn_section{
+    clear: left;
+    font-size: 1.25em;
 }

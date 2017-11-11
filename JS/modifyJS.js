@@ -1,4 +1,4 @@
-var $ = function(id)
+var $ = function(id) //shorthand function to get elementID
 {
     return document.getElementById(id);
 }
@@ -75,10 +75,10 @@ function checkDiagonal()
 }
 
 //check if placed piece has triggered a win condition
-var turnNums;
+var turnNums = 0;
 function checkForWin(square)
 {
-    turnNums;
+    turnNums++;
     if(checkColumns(square.cellIndex)||checkRows(square.parentNode.rowIndex) || checkDiagonal())
     {
         alert("Win");
@@ -129,6 +129,7 @@ window.onload = function()
 }
 var currentPiece = "-";
 var interval;
+//setup the clock to start working and setup the board for the correct opponent
 function startGame()
 {
     clock();
@@ -137,7 +138,7 @@ function startGame()
     if($("Human").checked)
     {
         setupTwoPlayer();
-        $("Turn").innerHTML = "Current Player Piece: " + currentPiece;
+        $("Turn").innerHTML = "It's " + currentPiece + "'s Turn";
     }
     else if ($("Computer").checked)
     {
@@ -157,7 +158,7 @@ var minutes = 0;
 var hours = 0;
 var seconds = 0;
 var repeater;
-function clock()
+function clock() //simple clock function
 {
     var clock = $("clock");
     if(seconds == 60)
@@ -270,7 +271,7 @@ function setupComputer()
         }
     }
 }
-//clear the gameboard
+//clear the gameboard and set all global variables back to their original state
 function clearGame() 
 {
     var b = $("board");
@@ -285,10 +286,16 @@ function clearGame()
         }
     }
     clearInterval(interval);
+    minutes = 0;
+    seconds = 0;
+    hours = 0;
+    $("clock").innerHTML = "00:00:00";
+    currentPiece = "-";
+    winner = false;
+    turnNums = 0;
 }
 
-//check which radio buttons are currently selected, and swap if needed
-
+//check what the current piece is, trying to prevent uneeded changes to the global variable
 function checkPiece()
 {
 
@@ -316,19 +323,19 @@ function change(tableCell)
         {
             if(tableCell.hasAttribute("class"))
             {
-                tableCell.removeEventListener("click", playComputer);
-                return;
+                tableCell.removeEventListener("click", playComputer); //remove the event listener so that a click on the cell doesnt cause the computer to play
+                return; //take no action on the click
             }
             else{
                 tableCell.setAttribute("class", "applyX");
             }
             currentPiece = "O";
-            $("Turn").innerHTML = "Current Player Piece: O";
+            $("Turn").innerHTML = "It's " + currentPiece + "'s Turn";
         }
         else if (selected == "o")
         {
             if(tableCell.hasAttribute("class"))
-            {
+            {//same situtation as above selected == x scenario
                 tableCell.removeEventListener("click",playComputer);
                 return;
             }
@@ -336,7 +343,7 @@ function change(tableCell)
                 tableCell.setAttribute("class", "applyO");
             }
             currentPiece = "X";
-            $("Turn").innerHTML = "Current Player Piece: X";
+            $("Turn").innerHTML = "It's " + currentPiece + "'s Turn";
         }
     
     }
